@@ -7,9 +7,15 @@ services:
       - ./:/chirpstack-integration-pulsar
     depends_on:
       - pulsar
+      - redis
 
   pulsar:
     image: 'apachepulsar/pulsar:2.11.1'
     command: 'bin/pulsar standalone'
     ports:
       - "6650:6650"
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
