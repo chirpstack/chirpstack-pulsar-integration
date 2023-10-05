@@ -39,22 +39,45 @@
 
 # Debian packaging.
 [package.metadata.deb]
-assets = [
-  [
-    "target/release/chirpstack-pulsar-integration",
-    "usr/bin/",
-    "755",
-  ],
-  [
-    "configuration/chirpstack-pulsar-integration.toml",
-    "etc/chirpstack-pulsar-integration/",
-    "640",
+  assets = [
+    [
+      "target/release/chirpstack-pulsar-integration",
+      "usr/bin/",
+      "755",
+    ],
+    [
+      "configuration/chirpstack-pulsar-integration.toml",
+      "etc/chirpstack-pulsar-integration/",
+      "640",
+    ],
   ]
-]
 
-conf-files = [
-  "/etc/chirpstack-pulsar-integration/chirpstack-pulsar-integration.toml"
-]
-suggests = "chirpstack, redis"
-maintainer-scripts = "debian/"
-systemd-units = { enable = true }
+  conf-files = [
+    "/etc/chirpstack-pulsar-integration/chirpstack-pulsar-integration.toml",
+  ]
+  suggests = "chirpstack, redis"
+  maintainer-scripts = "debian/"
+  systemd-units = { enable = true }
+
+# RPM packaging.
+[package.metadata.generate-rpm]
+  auto-req = "no"
+
+  pre_install_script = '''
+id chirpstack &>/dev/null
+if [[ $? -ne 0 ]]; then
+	useradd --system -U -M chirpstack -s /bin/false -d /etc/chirpstack
+fi
+'''
+
+  post_install_script = '''
+chown -R chirpstack:chirpstack /etc/chirpstack-pulsar-integration
+chmod 750 /etc/chirpstack-pulsar-integration
+chmod 640 /etc/chirpstack-pulsar-integration/chirpstack-pulsar-integration.toml
+'''
+
+  assets = [
+    { source = "target/release/chirpstack-pulsar-integration", dest = "/usr/bin/chirpstack-pulsar-integration", mode = "755" },
+    { source = "configuration/chirpstack-pulsar-integration.toml", dest = "/etc/chirpstack-pulsar-integration/chirpstack-pulsar-integration.toml" },
+    { source = "rpm/chirpstack-pulsar-integration.service", dest = "/lib/systemd/system/chirpstack-pulsar-integration.service" },
+  ]

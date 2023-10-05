@@ -21,7 +21,11 @@ package-x86_64-unknown-linux-musl:
 
 	# .deb
 	cargo deb --target x86_64-unknown-linux-musl --no-build --no-strip
-	cp ./target/x86_64-unknown-linux-musl/debian/*.deb ../dist
+	cp ./target/x86_64-unknown-linux-musl/debian/*.deb ./dist
+
+	# .rpm
+	cargo generate-rpm --target x86_64-unknown-linux-musl --target-dir ./target
+	cp ./target/x86_64-unknown-linux-musl/generate-rpm/*.rpm ./dist
 
 # Update the version
 version:

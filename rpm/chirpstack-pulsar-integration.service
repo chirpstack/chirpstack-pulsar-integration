@@ -1,0 +1,14 @@
+[Unit]
+Description=Apache Pulsar integration for ChirpStack 
+Documentation=https://www.chirpstack.io/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=chirpstack
+Group=chirpstack
+ExecStart=/usr/bin/chirpstack-pulsar-integration -c /etc/chirpstack-pulsar-integration/chirpstack-pulsar-integration.toml
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
