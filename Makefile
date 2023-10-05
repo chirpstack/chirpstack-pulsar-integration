@@ -19,6 +19,10 @@ package-x86_64-unknown-linux-musl:
 	# .tar.gz
 	tar -czvf dist/chirpstack-integration-pulsar_$(PKG_VERSION)_amd64.tar.gz -C target/x86_64-unknown-linux-musl/release chirpstack-integration-pulsar
 
+	# .deb
+	cargo deb --target x86_64-unknown-linux-musl --no-build --no-strip
+	cp ./target/x86_64-unknown-linux-musl/debian/*.deb ../dist
+
 # Update the version
 version:
 	test -n "$(VERSION)"
@@ -41,3 +45,7 @@ test:
 # Enter the devshell.
 devshell:
 	nix-shell
+
+# Install dev dependencies
+dev-dependencies:
+	cargo install cargo-generate-rpm --version 0.12.1

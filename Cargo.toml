@@ -36,3 +36,25 @@
 [dev-dependencies]
   regex = "1.9"
   futures = "0.3"
+
+# Debian packaging.
+[package.metadata.deb]
+assets = [
+  [
+    "target/release/chirpstack-pulsar-integration",
+    "usr/bin/",
+    "755",
+  ],
+  [
+    "configuration/chirpstack-pulsar-integration.toml",
+    "etc/chirpstack-pulsar-integration/",
+    "640",
+  ]
+]
+
+conf-files = [
+  "/etc/chirpstack-pulsar-integration/chirpstack-pulsar-integration.toml"
+]
+suggests = "chirpstack, redis"
+maintainer-scripts = "debian/"
+systemd-units = { enable = true }

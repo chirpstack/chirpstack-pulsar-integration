@@ -10,6 +10,7 @@ pkgs.mkShell {
     pkgs.protobuf
     pkgs.cargo-cross
     pkgs.openssl
+    pkgs.cargo-deb
   ];
   DOCKER_BUILDKIT = "1";
   NIX_STORE = "/nix/store";
