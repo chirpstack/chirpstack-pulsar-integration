@@ -463,6 +463,8 @@ mod test {
         let redis_client = redis::Client::open(redis_url).unwrap();
         let mut redis_conn = redis_client.get_async_connection().await.unwrap();
 
+        println!("Uplink");
+
         // uplink
         let pl = integration_pb::UplinkEvent::default();
         let _: String = redis::cmd("XADD")
@@ -488,6 +490,8 @@ mod test {
             .unwrap();
 
         assert_eq!(pl, pl_recv);
+
+        println!("Join");
 
         // join
         let pl = integration_pb::JoinEvent::default();
@@ -515,6 +519,8 @@ mod test {
 
         assert_eq!(pl, pl_recv);
 
+        println!("Ack");
+
         // ack
         let pl = integration_pb::AckEvent::default();
         let _: String = redis::cmd("XADD")
@@ -540,6 +546,8 @@ mod test {
             .unwrap();
 
         assert_eq!(pl, pl_recv);
+
+        println!("TxAck");
 
         // txack
         let pl = integration_pb::TxAckEvent::default();
@@ -567,6 +575,8 @@ mod test {
 
         assert_eq!(pl, pl_recv);
 
+        println!("Log");
+
         // log
         let pl = integration_pb::LogEvent::default();
         let _: String = redis::cmd("XADD")
@@ -592,6 +602,8 @@ mod test {
             .unwrap();
 
         assert_eq!(pl, pl_recv);
+
+        println!("Status");
 
         // status
         let pl = integration_pb::StatusEvent::default();
@@ -619,6 +631,8 @@ mod test {
 
         assert_eq!(pl, pl_recv);
 
+        println!("Location");
+
         // location
         let pl = integration_pb::LocationEvent::default();
         let _: String = redis::cmd("XADD")
@@ -644,6 +658,8 @@ mod test {
             .unwrap();
 
         assert_eq!(pl, pl_recv);
+
+        println!("Integration");
 
         // integration
         let pl = integration_pb::IntegrationEvent::default();
