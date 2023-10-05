@@ -458,7 +458,7 @@ mod test {
         };
 
         tokio::spawn(start(conf));
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let redis_client = redis::Client::open(redis_url).unwrap();
         let mut redis_conn = redis_client.get_async_connection().await.unwrap();
@@ -476,7 +476,7 @@ mod test {
             .await
             .unwrap();
 
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let pl_recv = UPLINK_EVENTS
             .write()
@@ -502,7 +502,7 @@ mod test {
             .await
             .unwrap();
 
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let pl_recv = JOIN_EVENTS
             .write()
@@ -528,7 +528,7 @@ mod test {
             .await
             .unwrap();
 
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let pl_recv = ACK_EVENTS
             .write()
@@ -554,7 +554,7 @@ mod test {
             .await
             .unwrap();
 
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let pl_recv = TXACK_EVENTS
             .write()
@@ -580,7 +580,7 @@ mod test {
             .await
             .unwrap();
 
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let pl_recv = LOG_EVENTS
             .write()
@@ -606,7 +606,7 @@ mod test {
             .await
             .unwrap();
 
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let pl_recv = STATUS_EVENTS
             .write()
@@ -632,7 +632,7 @@ mod test {
             .await
             .unwrap();
 
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let pl_recv = LOCATION_EVENTS
             .write()
@@ -658,7 +658,7 @@ mod test {
             .await
             .unwrap();
 
-        sleep(Duration::from_millis(100)).await;
+        sleep(Duration::from_millis(500)).await;
 
         let pl_recv = INTEGRATION_EVENTS
             .write()
