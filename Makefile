@@ -1,15 +1,22 @@
 .PHONY: dist
 
 # Compile the binaries for all targets
-build: build-x86_64-unknown-linux-musl
+build: build-aarch64-unknown-linux-musl \
+	build-x86_64-unknown-linux-musl
 
 build-x86_64-unknown-linux-musl:
 	cross build --target x86_64-unknown-linux-musl --release
 
+build-aarch64-unknown-linux-musl:
+	cross build --target aarch64-unknown-linux-musl --release
+
 # Build distributable binaries for all targets
-dist: dist-x86_64-unknown-linux-musl
+dist: dist-aarch64-unknown-linux-musl \
+	dist-x86_64-unknown-linux-musl
 
 dist-x86_64-unknown-linux-musl: build-x86_64-unknown-linux-musl package-x86_64-unknown-linux-musl
+
+dist-aarch64-unknown-linux-musl: build-aarch64-unknown-linux-musl package-aarch64-unknown-linux-musl
 
 # Package the compiled binaries
 package-x86_64-unknown-linux-musl:
@@ -17,7 +24,7 @@ package-x86_64-unknown-linux-musl:
 	mkdir -p dist
 
 	# .tar.gz
-	tar -czvf dist/chirpstack-integration-pulsar_$(PKG_VERSION)_amd64.tar.gz -C target/x86_64-unknown-linux-musl/release chirpstack-integration-pulsar
+	tar -czvf dist/chirpstack-pulsar-integration_$(PKG_VERSION)_amd64.tar.gz -C target/x86_64-unknown-linux-musl/release chirpstack-pulsar-integration
 
 	# .deb
 	cargo deb --target x86_64-unknown-linux-musl --no-build --no-strip
@@ -26,6 +33,21 @@ package-x86_64-unknown-linux-musl:
 	# .rpm
 	cargo generate-rpm --target x86_64-unknown-linux-musl --target-dir ./target
 	cp ./target/x86_64-unknown-linux-musl/generate-rpm/*.rpm ./dist
+
+package-aarch64-unknown-linux-musl:
+	$(eval PKG_VERSION := $(shell cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version'))
+	mkdir -p dist
+
+	# .tar.gz
+	tar -czvf dist/chirpstack-pulsar-integration_$(PKG_VERSION)_arm64.tar.gz -C target/aarch64-unknown-linux-musl/release chirpstack-pulsar-integration
+
+	# .deb
+	cargo deb --target aarch64-unknown-linux-musl --no-build --no-strip
+	cp ./target/aarch64-unknown-linux-musl/debian/*.deb ./dist
+
+	# .rpm
+	cargo generate-rpm --target aarch64-unknown-linux-musl --target-dir ./target
+	cp ./target/aarch64-unknown-linux-musl/generate-rpm/*.rpm ./dist
 
 # Update the version
 version:
