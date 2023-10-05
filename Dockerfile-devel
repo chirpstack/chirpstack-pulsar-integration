@@ -1,0 +1,6 @@
+FROM nixos/nix
+
+ENV PROJECT_PATH=/chirpstack-integration-pulsar
+WORKDIR $PROJECT_PATH
+
+ENTRYPOINT ["nix-shell"]
