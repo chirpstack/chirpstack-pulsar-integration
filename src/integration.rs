@@ -171,6 +171,7 @@ impl Integration {
             .arg(&key)
             .arg(&self.consumer_group)
             .arg(0)
+            .arg("MKSTREAM")
             .query_async(&mut redis_conn)
             .await
         {
@@ -445,6 +446,7 @@ mod test {
     async fn test_integration() {
         let redis_url = env::var("TEST_REDIS_URL").unwrap_or("redis://127.0.0.1/1".to_string());
 
+        setup_log(&Configuration::default()).unwrap();
         register(Box::new(MockIntegration {})).await;
 
         let conf = Configuration {
@@ -462,6 +464,8 @@ mod test {
 
         let redis_client = redis::Client::open(redis_url).unwrap();
         let mut redis_conn = redis_client.get_async_connection().await.unwrap();
+
+        println!("Uplink");
 
         // uplink
         let pl = integration_pb::UplinkEvent::default();
@@ -489,6 +493,8 @@ mod test {
 
         assert_eq!(pl, pl_recv);
 
+        println!("Join");
+
         // join
         let pl = integration_pb::JoinEvent::default();
         let _: String = redis::cmd("XADD")
@@ -514,6 +520,8 @@ mod test {
             .unwrap();
 
         assert_eq!(pl, pl_recv);
+
+        println!("Ack");
 
         // ack
         let pl = integration_pb::AckEvent::default();
@@ -541,6 +549,8 @@ mod test {
 
         assert_eq!(pl, pl_recv);
 
+        println!("TxAck");
+
         // txack
         let pl = integration_pb::TxAckEvent::default();
         let _: String = redis::cmd("XADD")
@@ -566,6 +576,8 @@ mod test {
             .unwrap();
 
         assert_eq!(pl, pl_recv);
+
+        println!("Log");
 
         // log
         let pl = integration_pb::LogEvent::default();
@@ -593,6 +605,8 @@ mod test {
 
         assert_eq!(pl, pl_recv);
 
+        println!("Status");
+
         // status
         let pl = integration_pb::StatusEvent::default();
         let _: String = redis::cmd("XADD")
@@ -619,6 +633,8 @@ mod test {
 
         assert_eq!(pl, pl_recv);
 
+        println!("Location");
+
         // location
         let pl = integration_pb::LocationEvent::default();
         let _: String = redis::cmd("XADD")
@@ -644,6 +660,8 @@ mod test {
             .unwrap();
 
         assert_eq!(pl, pl_recv);
+
+        println!("Integration");
 
         // integration
         let pl = integration_pb::IntegrationEvent::default();
