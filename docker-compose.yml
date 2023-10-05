@@ -1,10 +1,10 @@
 services:
-  chirpstack-integration-pulsar:
+  chirpstack-pulsar-integration:
     build:
       context: .
       dockerfile: Dockerfile-devel
     volumes:
-      - ./:/chirpstack-integration-pulsar
+      - ./:/chirpstack-pulsar-integration
     depends_on:
       - pulsar
       - redis

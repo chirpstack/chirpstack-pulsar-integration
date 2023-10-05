@@ -77,4 +77,4 @@ by [Spindel](https://github.com/Spindel).
 ## License
 
 The ChirpStack Pulsar integration is distributed under the MIT license. See
-also [LICENSE](https://github.com/chirpstack/chirpstack-integration-pulsar/blob/master/LICENSE).
+also [LICENSE](https://github.com/chirpstack/chirpstack-pulsar-integration/blob/master/LICENSE).
