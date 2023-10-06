@@ -4,6 +4,8 @@ FROM --platform=$BUILDPLATFORM alpine:3.18.0 as binary
 ARG TARGETPLATFORM
 
 COPY target/x86_64-unknown-linux-musl/release/chirpstack-pulsar-integration /usr/bin/chirpstack-pulsar-integration-x86_64
+COPY target/armv7-unknown-linux-musleabihf/release/chirpstack-pulsar-integration /usr/bin/chirpstack-pulsar-integration-armv7hf
+COPY target/aarch64-unknown-linux-musl/release/chirpstack-pulsar-integration /usr/bin/chirpstack-pulsar-integration-aarch64
 
 
 RUN case "$TARGETPLATFORM" in \
