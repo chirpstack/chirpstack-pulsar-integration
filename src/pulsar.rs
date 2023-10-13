@@ -1,14 +1,13 @@
 use anyhow::Result;
 use async_trait::async_trait;
 use handlebars::Handlebars;
-use prost::Message;
 use pulsar::Pulsar;
 use serde::Serialize;
 use tracing::{info, trace};
 
 use crate::config;
-use crate::integration::IntegrationTrait;
-use chirpstack_api::integration as integration_pb;
+use chirpstack_api::{integration as integration_pb, prost::Message};
+use chirpstack_integration::IntegrationTrait;
 
 #[derive(Serialize)]
 struct EventTopicContext {

@@ -3,13 +3,11 @@ use std::{env, fs};
 use anyhow::Result;
 use serde::Deserialize;
 
-use crate::integration;
-
 #[derive(Default, Deserialize, Clone)]
 #[serde(default)]
 pub struct Configuration {
     #[serde(flatten)]
-    pub integration: integration::Configuration,
+    pub integration: chirpstack_integration::Configuration,
     pub pulsar: Pulsar,
 }
 

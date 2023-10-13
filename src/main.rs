@@ -1,11 +1,8 @@
 #[macro_use]
-extern crate lazy_static;
-#[macro_use]
 extern crate anyhow;
 use clap::Parser;
 
 mod config;
-mod integration;
 mod pulsar;
 
 #[derive(Parser)]
@@ -20,11 +17,13 @@ async fn main() {
     let cli = Cli::parse();
     let conf = config::Configuration::load(&cli.config).unwrap();
 
-    integration::setup_log(&conf.integration).unwrap();
-    integration::register(Box::new(
+    chirpstack_integration::setup_log(&conf.integration).unwrap();
+    chirpstack_integration::register(Box::new(
         pulsar::Integration::new(conf.pulsar.clone()).await.unwrap(),
     ))
     .await;
 
-    integration::start(conf.integration).await.unwrap();
+    chirpstack_integration::start(conf.integration)
+        .await
+        .unwrap();
 }
