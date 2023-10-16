@@ -24,7 +24,7 @@
   toml = "0.7"
 
 [dev-dependencies]
-  regex = "1.9"
+  regex = "1.10"
   futures = "0.3"
 
 # Debian packaging.
